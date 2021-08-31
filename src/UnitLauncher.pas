@@ -1,31 +1,22 @@
-unit MainForm1;
+unit UnitLauncher;
 interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, ShellAPI,
-  UnitLauncher;
+  Vcl.Imaging.jpeg, ShellAPI;
 
 type
-  TMainForm = class(TForm)
-    LaunchButton: TButton;
-    BackgroundImage: TImage;
-    procedure FormCreate(Sender: TObject);
-    procedure LaunchButtonClick(Sender: TObject);
+  TKPLauncher = class
   private
-    { Private declarations }
   public
-    { Public declarations }
+    procedure CheckUpdate;
+    procedure LaunchGame;
   end;
 
-var
-  MainForm: TMainForm;
 
 implementation
 
-{$R *.dfm}
-
-procedure TMainForm.LaunchButtonClick(Sender: TObject);
+procedure TKPLauncher.LaunchGame;
 var
    si: TStartupInfo;
    pi: TProcessInformation;
@@ -41,7 +32,7 @@ begin
 
 end;
 
-procedure TMainForm.FormCreate(Sender: TObject);
+procedure TKPLauncher.CheckUpdate;
 begin
   { check update }
 end;
