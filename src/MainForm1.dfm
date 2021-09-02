@@ -2045,6 +2045,5 @@ object MainForm: TMainForm
     Caption = 'Launch'
     TabOrder = 0
     OnClick = LaunchButtonClick
-    ExplicitTop = 552
   end
 end
