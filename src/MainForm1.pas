@@ -13,6 +13,7 @@ type
     procedure LaunchButtonClick(Sender: TObject);
   private
     { Private declarations }
+    fLauncher: TKPLauncher;
   public
     { Public declarations }
   end;
@@ -42,6 +43,7 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  fLauncher := TKPLauncher.Create;
   { check update }
 end;
 
