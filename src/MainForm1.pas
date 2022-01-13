@@ -44,7 +44,18 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fLauncher := TKPLauncher.Create;
-  { check update }
+
+  if fLauncher.CheckDuplicateLauncher then
+    Application.Terminate;
+
+  if fLauncher.CheckLauncherUpdate then
+    fLauncher.UpdateLauncher;
+
+//  if fLauncher.CheckDuplicateGame then
+//    fLauncher.UpdateLauncher;
+
+//  if fLauncher.CheckGameUpdate then
+//    fLauncher.UpdateGame;
 end;
 
 end.

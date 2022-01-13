@@ -11,25 +11,95 @@ type
   const
     // Mutex is used to block duplicate app launch on the same PC
     // Random GUID generated in Delphi by Ctrl+Shift+G
-    // @Life: Is this a KP mutex or Launcher mutex? Comment should be updated
     KP_MUTEX = 'DA046FE1-82E6-45EA-B25E-2C3F2350593C';
+    Launcher_MUTEX = '44E15CC0-6DEB-4C1D-98C0-3F487F6DBEC6';
   private
     fMutex: THandle;
+    fGameMutex: THandle;
   public
-    function CheckDuplicate;
-    procedure CheckUpdate;
+    // Functions:
+    function CheckDuplicateLauncher: Boolean;
+    function CheckDuplicateGame: Boolean;
+    function CheckLauncherUpdate: Boolean;
+    function CheckGameUpdate: Boolean;
+
+    // Procedures:
+    procedure UpdateLauncher;
+    procedure UpdateGame;
     procedure LaunchGame;
-    procedure UnlockMutex;
-    procedure LockMutex;
+    procedure UnlockLauncherMutex;
+    procedure LockLauncherMutex;
+    procedure UnlockGameMutex;
+    procedure LockGameMutex;
   end;
 
 implementation
 
+function TKPLauncher.CheckDuplicateLauncher: Boolean;
+begin
+  //Result := True;
+  // if DBG_ALLOW_DOUBLE_APP then Exit;
+
+  LockLauncherMutex;
+
+  Result := (GetLastError = ERROR_ALREADY_EXISTS);
+
+  if Result <> True then
+    UnlockLauncherMutex;
+
+  // Close our own handle on the mutex because someone else already made the mutex
+  CloseHandle(fMutex);
+  fMutex := 0;
+end;
+
+
+function TKPLauncher.CheckDuplicateGame: Boolean;
+begin
+  Result := True;
+  // if DBG_ALLOW_DOUBLE_APP then Exit;
+
+  LockGameMutex;
+
+  Result := (GetLastError = ERROR_ALREADY_EXISTS);
+
+  if Result <> True then
+    UnlockGameMutex;
+
+  // Close our own handle on the mutex because someone else already made the mutex
+  CloseHandle(fMutex);
+  fMutex := 0;
+end;
+
+
+function TKPLauncher.CheckLauncherUpdate : Boolean;
+begin
+  Result := True;
+end;
+
+
+function TKPLauncher.CheckGameUpdate : Boolean;
+begin
+  Result := True;
+end;
+
+
+procedure TKPLauncher.UpdateLauncher;
+begin
+  { check update }
+end;
+
+
+procedure TKPLauncher.UpdateGame;
+begin
+  { check update }
+end;
+
+
 { TKPLauncher }
 procedure TKPLauncher.LaunchGame;
 var
-  si: TStartupInfo;
-  pi: TProcessInformation;
+//  si: TStartupInfo;
+//  pi: TProcessInformation;
   shi: TShellExecuteInfo;
 begin
   shi := Default(TShellExecuteInfo);
@@ -41,39 +111,7 @@ begin
 end;
 
 
-procedure TKPLauncher.LockMutex;
-begin
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
-  fMutex := CreateMutex(nil, True, PChar(KP_MUTEX));
-
-  if fMutex = 0 then
-    RaiseLastOSError;
-end;
-
-
-procedure TKPLauncher.CheckUpdate;
-begin
-  { check update }
-end;
-
-
-function TKPLauncher.CheckDuplicate: Boolean;
-begin
-  Result := True;
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
-  LockMutex;
-
-  Result := (GetLastError <> ERROR_ALREADY_EXISTS);
-
-  if Result = True then
-    UnlockMutex;
-  // Close our own handle on the mutex because someone else already made the mutex
-end;
-
-
-procedure TKPLauncher.UnlockMutex;
+procedure TKPLauncher.UnlockLauncherMutex;
 begin
   // if DBG_ALLOW_DOUBLE_APP then Exit;
   if fMutex = 0 then
@@ -83,5 +121,36 @@ begin
   fMutex := 0;
 end;
 
+
+procedure TKPLauncher.LockLauncherMutex;
+begin
+  // if DBG_ALLOW_DOUBLE_APP then Exit;
+
+  fMutex := CreateMutex(nil, True, PChar(Launcher_MUTEX));
+
+  if fMutex = 0 then
+    RaiseLastOSError;
+end;
+
+procedure TKPLauncher.UnlockGameMutex;
+begin
+  // if DBG_ALLOW_DOUBLE_APP then Exit;
+  if fGameMutex = 0 then
+    Exit; // Didn't have a mutex lock
+
+  CloseHandle(fGameMutex);
+  fGameMutex := 0;
+end;
+
+
+procedure TKPLauncher.LockGameMutex;
+begin
+  // if DBG_ALLOW_DOUBLE_APP then Exit;
+
+  fGameMutex := CreateMutex(nil, True, PChar(KP_MUTEX));
+
+  if fGameMutex = 0 then
+    RaiseLastOSError;
+end;
 
 end.
