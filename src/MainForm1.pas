@@ -11,6 +11,7 @@ type
     BackgroundImage: TImage;
     procedure FormCreate(Sender: TObject);
     procedure LaunchButtonClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     fLauncher: TKPLauncher;
@@ -24,22 +25,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TMainForm.LaunchButtonClick(Sender: TObject);
-var
-   si: TStartupInfo;
-   pi: TProcessInformation;
-   shi: TShellExecuteInfo;
-begin
-
-  shi := Default(TShellExecuteInfo);
-  shi.cbSize := SizeOf(TShellExecuteInfo);
-  shi.lpFile := PChar('KnightsProvince.exe');
-  shi.nShow := SW_SHOWNORMAL;
-
-  ShellExecuteEx(@shi);
-
-end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
@@ -57,5 +42,26 @@ begin
 //  if fLauncher.CheckGameUpdate then
 //    fLauncher.UpdateGame;
 end;
+
+
+procedure TMainForm.FormDestroy(Sender: TObject);begin
+  FreeAndNil(fLauncher);
+end;
+
+
+procedure TMainForm.LaunchButtonClick(Sender: TObject);
+var
+   si: TStartupInfo;
+   pi: TProcessInformation;
+   shi: TShellExecuteInfo;
+begin
+  shi := Default(TShellExecuteInfo);
+  shi.cbSize := SizeOf(TShellExecuteInfo);
+  shi.lpFile := PChar('KnightsProvince.exe');
+  shi.nShow := SW_SHOWNORMAL;
+
+  ShellExecuteEx(@shi);
+end;
+
 
 end.
