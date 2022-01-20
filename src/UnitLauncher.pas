@@ -66,27 +66,29 @@ begin
 end;
 
 
-function TKPLauncher.CheckLauncherUpdate : Boolean;
+function TKPLauncher.CheckLauncherUpdate: Boolean;
 begin
+  //todo: CheckLauncherUpdate
   Result := True;
 end;
 
 
-function TKPLauncher.CheckGameUpdate : Boolean;
+function TKPLauncher.CheckGameUpdate: Boolean;
 begin
+  //todo: CheckGameUpdate
   Result := True;
 end;
 
 
 procedure TKPLauncher.UpdateLauncher;
 begin
-  { check update }
+  //todo: UpdateLauncher
 end;
 
 
 procedure TKPLauncher.UpdateGame;
 begin
-  { check update }
+  //todo: UpdateGame
 end;
 
 
