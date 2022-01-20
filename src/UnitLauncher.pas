@@ -14,7 +14,7 @@ type
     KP_MUTEX = 'DA046FE1-82E6-45EA-B25E-2C3F2350593C';
     LAUNCHER_MUTEX = '44E15CC0-6DEB-4C1D-98C0-3F487F6DBEC6';
   private
-    fMutex: THandle;
+    fLauncherMutex: THandle;
     fGameMutex: THandle;
   public
     // Functions:
@@ -46,8 +46,8 @@ begin
     UnlockLauncherMutex;
 
   // Close our own handle on the mutex because someone else already made the mutex
-  CloseHandle(fMutex);
-  fMutex := 0;
+  CloseHandle(fLauncherMutex);
+  fLauncherMutex := 0;
 end;
 
 
@@ -61,8 +61,8 @@ begin
     UnlockGameMutex;
 
   // Close our own handle on the mutex because someone else already made the mutex
-  CloseHandle(fMutex);
-  fMutex := 0;
+  CloseHandle(fLauncherMutex);
+  fLauncherMutex := 0;
 end;
 
 
@@ -108,19 +108,19 @@ end;
 
 procedure TKPLauncher.UnlockLauncherMutex;
 begin
-  if fMutex = 0 then
+  if fLauncherMutex = 0 then
     Exit; // Didn't have a mutex lock
 
-  CloseHandle(fMutex);
-  fMutex := 0;
+  CloseHandle(fLauncherMutex);
+  fLauncherMutex := 0;
 end;
 
 
 procedure TKPLauncher.LockLauncherMutex;
 begin
-  fMutex := CreateMutex(nil, True, PChar(LAUNCHER_MUTEX));
+  fLauncherMutex := CreateMutex(nil, True, PChar(LAUNCHER_MUTEX));
 
-  if fMutex = 0 then
+  if fLauncherMutex = 0 then
     RaiseLastOSError;
 end;
 
