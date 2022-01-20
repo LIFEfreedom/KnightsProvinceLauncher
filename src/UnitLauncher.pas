@@ -118,7 +118,7 @@ end;
 
 procedure TKPLauncher.LockLauncherMutex;
 begin
-  fMutex := CreateMutex(nil, True, PChar(Launcher_MUTEX));
+  fMutex := CreateMutex(nil, True, PChar(LAUNCHER_MUTEX));
 
   if fMutex = 0 then
     RaiseLastOSError;
