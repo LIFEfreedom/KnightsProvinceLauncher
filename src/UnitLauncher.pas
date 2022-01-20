@@ -35,11 +35,9 @@ type
 
 implementation
 
+
 function TKPLauncher.CheckDuplicateLauncher: Boolean;
 begin
-  //Result := True;
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
   LockLauncherMutex;
 
   Result := (GetLastError = ERROR_ALREADY_EXISTS);
@@ -55,9 +53,6 @@ end;
 
 function TKPLauncher.CheckDuplicateGame: Boolean;
 begin
-  Result := True;
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
   LockGameMutex;
 
   Result := (GetLastError = ERROR_ALREADY_EXISTS);
@@ -113,7 +108,6 @@ end;
 
 procedure TKPLauncher.UnlockLauncherMutex;
 begin
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
   if fMutex = 0 then
     Exit; // Didn't have a mutex lock
 
@@ -124,17 +118,15 @@ end;
 
 procedure TKPLauncher.LockLauncherMutex;
 begin
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
   fMutex := CreateMutex(nil, True, PChar(Launcher_MUTEX));
 
   if fMutex = 0 then
     RaiseLastOSError;
 end;
 
+
 procedure TKPLauncher.UnlockGameMutex;
 begin
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
   if fGameMutex = 0 then
     Exit; // Didn't have a mutex lock
 
@@ -145,12 +137,11 @@ end;
 
 procedure TKPLauncher.LockGameMutex;
 begin
-  // if DBG_ALLOW_DOUBLE_APP then Exit;
-
   fGameMutex := CreateMutex(nil, True, PChar(KP_MUTEX));
 
   if fGameMutex = 0 then
     RaiseLastOSError;
 end;
+
 
 end.
