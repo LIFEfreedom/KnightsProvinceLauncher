@@ -12,7 +12,7 @@ type
     // Mutex is used to block duplicate app launch on the same PC
     // Random GUID generated in Delphi by Ctrl+Shift+G
     KP_MUTEX = 'DA046FE1-82E6-45EA-B25E-2C3F2350593C';
-    Launcher_MUTEX = '44E15CC0-6DEB-4C1D-98C0-3F487F6DBEC6';
+    LAUNCHER_MUTEX = '44E15CC0-6DEB-4C1D-98C0-3F487F6DBEC6';
   private
     fMutex: THandle;
     fGameMutex: THandle;
