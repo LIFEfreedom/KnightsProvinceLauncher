@@ -42,7 +42,7 @@ begin
 
   Result := (GetLastError = ERROR_ALREADY_EXISTS);
 
-  if Result <> True then
+  if not Result then
     UnlockLauncherMutex;
 
   // Close our own handle on the mutex because someone else already made the mutex
