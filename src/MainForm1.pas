@@ -44,16 +44,17 @@ begin
 end;
 
 
-procedure TMainForm.FormDestroy(Sender: TObject);begin
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
   FreeAndNil(fLauncher);
 end;
 
 
 procedure TMainForm.LaunchButtonClick(Sender: TObject);
 var
-   si: TStartupInfo;
-   pi: TProcessInformation;
-   shi: TShellExecuteInfo;
+  si: TStartupInfo;
+  pi: TProcessInformation;
+  shi: TShellExecuteInfo;
 begin
   shi := Default(TShellExecuteInfo);
   shi.cbSize := SizeOf(TShellExecuteInfo);
