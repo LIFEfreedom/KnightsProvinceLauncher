@@ -62,7 +62,7 @@ begin
 
   Result := (GetLastError = ERROR_ALREADY_EXISTS);
 
-  if Result <> True then
+  if not Result then
     UnlockGameMutex;
 
   // Close our own handle on the mutex because someone else already made the mutex
