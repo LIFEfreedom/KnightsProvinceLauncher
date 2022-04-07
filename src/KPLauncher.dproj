@@ -99,7 +99,6 @@
             <Form>MainForm</Form>
         </DCCReference>
         <DCCReference Include="UnitLauncher.pas"/>
-        <DCCReference Include="HttpClient.pas"/>
         <DCCReference Include="MutexHelper.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

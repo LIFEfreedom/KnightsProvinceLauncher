@@ -63,8 +63,6 @@ begin
 end;
 
 function TMutexHelper.Check(mutexName:string): Boolean;
-var
-  fMutex: THandle;
 begin
   Lock(mutexName);
 
