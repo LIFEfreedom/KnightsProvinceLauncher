@@ -26,18 +26,9 @@ implementation
 {$R *.dfm}
 
 procedure TMainForm.LaunchButtonClick(Sender: TObject);
-var
-   si: TStartupInfo;
-   pi: TProcessInformation;
-   shi: TShellExecuteInfo;
 begin
 
-  shi := Default(TShellExecuteInfo);
-  shi.cbSize := SizeOf(TShellExecuteInfo);
-  shi.lpFile := PChar('KnightsProvince.exe');
-  shi.nShow := SW_SHOWNORMAL;
-
-  ShellExecuteEx(@shi);
+  fLauncher.LaunchGame;
 
 end;
 
@@ -47,9 +38,6 @@ begin
 
   if fLauncher.CheckDuplicateLauncher then
     Application.Terminate;
-
-  if fLauncher.CheckLauncherUpdate then
-    fLauncher.UpdateLauncher;
 
 //  if fLauncher.CheckDuplicateGame then
 //    fLauncher.UpdateLauncher;
