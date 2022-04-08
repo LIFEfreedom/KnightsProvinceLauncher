@@ -13,6 +13,7 @@ type
     procedure LaunchButtonClick(Sender: TObject);
   private
     { Private declarations }
+    fLauncher: TKPLauncher;
   public
     { Public declarations }
   end;
@@ -25,24 +26,26 @@ implementation
 {$R *.dfm}
 
 procedure TMainForm.LaunchButtonClick(Sender: TObject);
-var
-   si: TStartupInfo;
-   pi: TProcessInformation;
-   shi: TShellExecuteInfo;
 begin
 
-  shi := Default(TShellExecuteInfo);
-  shi.cbSize := SizeOf(TShellExecuteInfo);
-  shi.lpFile := PChar('KnightsProvince.exe');
-  shi.nShow := SW_SHOWNORMAL;
-
-  ShellExecuteEx(@shi);
+  fLauncher.LaunchGame;
 
 end;
+
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  { check update }
+  fLauncher := TKPLauncher.Create;
+
+  if fLauncher.CheckDuplicateLauncher then
+    Application.Terminate;
+
+//  if fLauncher.CheckDuplicateGame then
+//    fLauncher.UpdateLauncher;
+
+//  if fLauncher.CheckGameUpdate then
+//    fLauncher.UpdateGame;
 end;
+
 
 end.

@@ -2,7 +2,8 @@ program KPLauncher;
 uses
   Vcl.Forms,
   MainForm1 in 'MainForm1.pas' {MainForm},
-  UnitLauncher in 'UnitLauncher.pas';
+  UnitLauncher in 'UnitLauncher.pas',
+  MutexHelper in 'MutexHelper.pas';
 
 {$R *.res}
 begin
