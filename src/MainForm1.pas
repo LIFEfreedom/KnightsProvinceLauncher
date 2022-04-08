@@ -32,6 +32,7 @@ begin
 
 end;
 
+
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fLauncher := TKPLauncher.Create;
@@ -45,5 +46,6 @@ begin
 //  if fLauncher.CheckGameUpdate then
 //    fLauncher.UpdateGame;
 end;
+
 
 end.

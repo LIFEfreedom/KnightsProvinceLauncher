@@ -1,10 +1,8 @@
 unit UnitLauncher;
 interface
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, ShellAPI, MutexHelper;
+  Winapi.Windows, System.SysUtils, System.Classes,
+  ShellAPI, MutexHelper;
 
 type
   TKPLauncher = class
@@ -16,13 +14,12 @@ type
   private
     fMutexHelper: TMutexHelper;
   public
-    Constructor Create; overload;
+    constructor Create;
+    destructor Destroy; override; //@Life: Destructor is inherited from base class (and unlike Create always needs to be overriden)
 
-    // Functions:
     function CheckDuplicateLauncher: Boolean;
     function CheckDuplicateGame: Boolean;
 
-    // Procedures:
     procedure UnlockLauncherMutex;
     procedure LockLauncherMutex;
     procedure LaunchGame;
@@ -31,15 +28,26 @@ type
 implementation
 
 
-constructor  TKPLauncher.Create;
+constructor TKPLauncher.Create;
 begin
+  inherited; //@Life: Always call inherited when inheriting from something. Good practice
+
   fMutexHelper := TMutexHelper.Create;
+end;
+
+
+destructor TKPLauncher.Destroy;
+begin
+  //@Life: Destroy manually what we have created. No GC :-)
+  FreeAndNil(fMutexHelper);
+
+  inherited;
 end;
 
 
 function TKPLauncher.CheckDuplicateLauncher: Boolean;
 begin
-  Result := fMutexHelper.Check(Launcher_MUTEX);
+  Result := fMutexHelper.Check(LAUNCHER_MUTEX);
 end;
 
 
@@ -66,13 +74,14 @@ end;
 
 procedure TKPLauncher.UnlockLauncherMutex;
 begin
-  fMutexHelper.Unlock(Launcher_MUTEX);
+  fMutexHelper.Unlock(LAUNCHER_MUTEX);
 end;
 
 
 procedure TKPLauncher.LockLauncherMutex;
 begin
-  fMutexHelper.Lock(Launcher_MUTEX);
+  fMutexHelper.Lock(LAUNCHER_MUTEX);
 end;
+
 
 end.
