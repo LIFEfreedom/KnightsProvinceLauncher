@@ -24,6 +24,7 @@ type
     procedure LaunchGame;
   end;
 
+
 implementation
 
 
@@ -54,7 +55,7 @@ end;
 
 function TKPLauncher.CheckDuplicateGame: Boolean;
 begin
-  Result := fMutexGame.TryLock;
+  Result := fMutexGame.CheckLockExists;
 end;
 
 

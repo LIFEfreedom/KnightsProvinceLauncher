@@ -3,19 +3,18 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher, Vcl.Imaging.pngimage;
+  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher, Vcl.Imaging.pngimage, Vcl.Buttons;
 
 type
   TMainForm = class(TForm)
     btnLaunch: TButton;
     imgLogo: TImage;
+    btnDiscord: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
+    procedure btnDiscordClick(Sender: TObject);
   private
-    { Private declarations }
     fLauncher: TKPLauncher;
-  public
-    { Public declarations }
   end;
 
 var
@@ -24,14 +23,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TMainForm.btnLaunchClick(Sender: TObject);
-begin
-
-  fLauncher.LaunchGame;
-
-end;
-
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
@@ -43,11 +34,26 @@ begin
     Application.Terminate;
   end;
 
-//  if fLauncher.CheckDuplicateGame then
-//    fLauncher.UpdateLauncher;
-
 //  if fLauncher.CheckGameUpdate then
 //    fLauncher.UpdateGame;
+end;
+
+
+procedure TMainForm.btnDiscordClick(Sender: TObject);
+begin
+  //todo: Go to https://discord.gg/ZGrgC6G
+end;
+
+procedure TMainForm.btnLaunchClick(Sender: TObject);
+begin
+  if fLauncher.CheckDuplicateGame then
+  begin
+    MessageDlg('Can not start second game', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  fLauncher.LaunchGame;
+  Application.Terminate;
 end;
 
 

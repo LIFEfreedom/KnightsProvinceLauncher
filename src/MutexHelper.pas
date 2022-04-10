@@ -18,6 +18,7 @@ type
     constructor Create(const aMutexName: string);
 
     function TryLock: Boolean;
+    function CheckLockExists: Boolean;
   end;
 
 
@@ -60,6 +61,17 @@ begin
   if not Result then
     // Close our own handle on the mutex because someone else already made the mutex
     Unlock;
+end;
+
+
+function TMutexHelper.CheckLockExists: Boolean;
+begin
+  Lock;
+
+  Result := (GetLastError = ERROR_ALREADY_EXISTS);
+
+  // Always unlock our "test" mutex
+  Unlock;
 end;
 
 
