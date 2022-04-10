@@ -3,14 +3,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher;
+  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher, Vcl.Imaging.pngimage;
 
 type
   TMainForm = class(TForm)
-    LaunchButton: TButton;
-    BackgroundImage: TImage;
+    btnLaunch: TButton;
+    imgLogo: TImage;
     procedure FormCreate(Sender: TObject);
-    procedure LaunchButtonClick(Sender: TObject);
+    procedure btnLaunchClick(Sender: TObject);
   private
     { Private declarations }
     fLauncher: TKPLauncher;
@@ -25,7 +25,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TMainForm.LaunchButtonClick(Sender: TObject);
+procedure TMainForm.btnLaunchClick(Sender: TObject);
 begin
 
   fLauncher.LaunchGame;
