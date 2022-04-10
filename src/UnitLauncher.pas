@@ -21,8 +21,6 @@ type
     function TryLockForLauncher: Boolean;
     function CheckDuplicateGame: Boolean;
 
-    procedure UnlockLauncherMutex;
-    procedure LockLauncherMutex;
     procedure LaunchGame;
   end;
 
@@ -72,18 +70,6 @@ begin
   shi.nShow := SW_SHOWNORMAL;
 
   ShellExecuteEx(@shi);
-end;
-
-
-procedure TKPLauncher.UnlockLauncherMutex;
-begin
-  fMutexLauncher.Unlock;
-end;
-
-
-procedure TKPLauncher.LockLauncherMutex;
-begin
-  fMutexGame.Lock;
 end;
 
 

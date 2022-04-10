@@ -1,7 +1,7 @@
 unit MutexHelper;
 interface
 uses
-  Winapi.Windows, System.SysUtils, System.Generics.Collections,
+  Winapi.Windows, System.SysUtils,
   ShellAPI;
 
 type
@@ -9,6 +9,8 @@ type
   private
     fMutexName: string;
     fHandle: THandle;
+    procedure Unlock;
+    procedure Lock;
   public
     // @Life: Hint, we can pass aMutexName into constructor and store it.
     // It will be much simpler for a user to use 2 mutex helpers rather than remember to pass different variables
@@ -16,9 +18,6 @@ type
     constructor Create(const aMutexName: string);
 
     function TryLock: Boolean;
-
-    procedure Unlock;
-    procedure Lock;
   end;
 
 
