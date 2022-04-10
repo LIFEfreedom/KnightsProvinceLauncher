@@ -4012,7 +4012,7 @@ object MainForm: TMainForm
   end
   object btnLaunch: TButton
     Left = 120
-    Top = 304
+    Top = 312
     Width = 467
     Height = 33
     Caption = 'Launch'

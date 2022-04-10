@@ -37,8 +37,11 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fLauncher := TKPLauncher.Create;
 
-  if fLauncher.CheckDuplicateLauncher then
+  if not fLauncher.TryLockForLauncher then
+  begin
+    MessageDlg('Can not start second launcher', mtWarning, [mbOK], 0);
     Application.Terminate;
+  end;
 
 //  if fLauncher.CheckDuplicateGame then
 //    fLauncher.UpdateLauncher;

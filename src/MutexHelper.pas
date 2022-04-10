@@ -7,74 +7,60 @@ uses
 type
   TMutexHelper = class
   private
-    fMutexes: TDictionary<string, THandle>;
+    fMutexName: string;
+    fHandle: THandle;
   public
     // @Life: Hint, we can pass aMutexName into constructor and store it.
     // It will be much simpler for a user to use 2 mutex helpers rather than remember to pass different variables
     // and you wont need a dictionary here too
-    constructor Create;
+    constructor Create(const aMutexName: string);
 
-    function Check(aMutexName: string): Boolean;
+    function TryLock: Boolean;
 
-    procedure Unlock(aMutexName: string);
-    procedure Lock(aMutexName: string);
+    procedure Unlock;
+    procedure Lock;
   end;
 
 
 implementation
 
 
-constructor TMutexHelper.Create;
+constructor TMutexHelper.Create(const aMutexName: string);
 begin
-  inherited; //@Life: Always call inherited when inheriting from something. Good practice
+  inherited Create; //@Life: Always call inherited when inheriting from something. Good practice
 
-  fMutexes := TDictionary<String, THandle>.Create;
+  fMutexName := aMutexName;
 end;
 
 
-procedure TMutexHelper.Lock(aMutexName: string);
-var
-  fMutex: THandle;
+procedure TMutexHelper.Lock;
 begin
-  fMutex := CreateMutex(nil, True, PChar(aMutexName));
+  fHandle := CreateMutex(nil, True, PChar(fMutexName));
 
-  if fMutex = 0 then
-  begin
+  if fHandle = 0 then
     RaiseLastOSError;
-  end
-  else
-  begin
-    fMutexes.Add(aMutexName, fMutex);
-  end;
 end;
 
 
-procedure TMutexHelper.Unlock(aMutexName: string);
-var
-  mutex: THandle;
+procedure TMutexHelper.Unlock;
 begin
-  if fMutexes.ContainsKey(aMutexName) then
+  if fHandle <> 0 then
   begin
-    fMutexes.TryGetValue(aMutexName, mutex);
-
-    if mutex = 0 then
-      Exit; // Didn't have a mutex lock
-
-    CloseHandle(mutex);
-    mutex := 0;
-    fMutexes.Remove(aMutexName)
+    CloseHandle(fHandle);
+    fHandle := 0;
   end
 end;
 
 
-function TMutexHelper.Check(aMutexName: string): Boolean;
+function TMutexHelper.TryLock: Boolean;
 begin
-  Lock(aMutexName);
+  Lock;
 
-  Result := (GetLastError = ERROR_ALREADY_EXISTS);
+  Result := (GetLastError <> ERROR_ALREADY_EXISTS);
 
-  if Result <> True then
-    Unlock(aMutexName);
+  if not Result then
+    // Close our own handle on the mutex because someone else already made the mutex
+    Unlock;
 end;
 
 
