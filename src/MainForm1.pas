@@ -3,13 +3,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher, Vcl.Imaging.pngimage, Vcl.Buttons;
+  Vcl.Imaging.jpeg, ShellAPI, UnitLauncher, Vcl.Imaging.pngimage, Vcl.Buttons, System.ImageList, Vcl.ImgList;
 
 type
   TMainForm = class(TForm)
     btnLaunch: TButton;
     imgLogo: TImage;
-    btnDiscord: TSpeedButton;
+    btnDiscord: TButton;
+    ilLinkButtons50: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
     procedure btnDiscordClick(Sender: TObject);
